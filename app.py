@@ -156,4 +156,7 @@ def generate_stamp():
     return send_file(img_io, mimetype='image/png')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # Azure Web App will use the WEBSITE_HOSTNAME environment variable
+    # Use PORT environment variable if available (for Azure), otherwise default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
