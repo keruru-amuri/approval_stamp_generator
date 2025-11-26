@@ -1,0 +1,324 @@
+/**
+ * MH App Design System - CSS Variables
+ * 
+ * This file contains all design tokens from the MH App Design System
+ * including colors, typography, spacing, and other design properties.
+ */
+
+:root {
+    /* ========================================
+     PRIMARY COLORS
+     ======================================== */
+    --mh-primary-blue-light: #0066B3;
+    --mh-primary-blue-base: #0D4689;
+    --mh-primary-blue-dark: #1F4074;
+    --mh-primary-black-base: #333333;
+
+    /* ========================================
+     SECONDARY COLORS
+     ======================================== */
+    --mh-secondary-gold-base: #CEAF87;
+    --mh-secondary-teal-ultralight: #EAF8F8;
+    --mh-secondary-teal-extralight: #D6F2F2;
+    --mh-secondary-teal-light: #00AFAD;
+    --mh-secondary-teal-base: #00818D;
+    --mh-secondary-teal-dark: #005E67;
+    --mh-secondary-blue-ultralight: #E3F4FD;
+    --mh-secondary-blue-extradark: #041049;
+    --mh-secondary-purple-light: #78376F;
+    --mh-secondary-purple-dark: #5B4084;
+    --mh-secondary-70: #474D66;
+
+    /* ========================================
+     TERTIARY COLORS
+     ======================================== */
+    --mh-tertiary-10: #FFFFFF;
+
+    /* ========================================
+     NEUTRAL COLORS (Grayscale)
+     ======================================== */
+    --mh-neutral-white: #FFFFFF;
+    --mh-neutral-grey-ultralight: #FAFBFC;
+    --mh-neutral-grey-extralight: #F0F3F5;
+    --mh-neutral-grey-light: #E1E7EA;
+    --mh-neutral-grey-base: #CED8DD;
+    --mh-neutral-grey-dark: #A7B6BF;
+    --mh-neutral-grey-extradark: #7C8D97;
+    --mh-neutral-grey-ultradark: #747778;
+
+    /* ========================================
+     SEMANTIC COLORS
+     ======================================== */
+    --mh-semantic-green-base: #1DB36E;
+    --mh-semantic-blue-light: #00C0F3;
+    --mh-semantic-orange-light: #FCF5E6;
+    --mh-semantic-orange-base: #E6A935;
+    --mh-semantic-red-light: #FCEDF0;
+    --mh-semantic-red-base: #D1223E;
+
+    /* ========================================
+     TYPOGRAPHY - FONT FAMILIES
+     ======================================== */
+    --mh-font-primary: 'Mundial', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mh-font-ui: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    /* ========================================
+     TYPOGRAPHY - FONT SIZES
+     ======================================== */
+    --mh-font-size-h4: 24px;
+    --mh-font-size-body-1: 16px;
+    --mh-font-size-body-3: 12px;
+    --mh-font-size-caption: 12px;
+    --mh-font-size-small: 12px;
+
+    /* ========================================
+     TYPOGRAPHY - FONT WEIGHTS
+     ======================================== */
+    --mh-font-weight-light: 300;
+    --mh-font-weight-regular: 400;
+    --mh-font-weight-medium: 600;
+    --mh-font-weight-bold: 700;
+
+    /* ========================================
+     TYPOGRAPHY - LINE HEIGHTS
+     ======================================== */
+    --mh-line-height-h4: 32px;
+    --mh-line-height-body-1: 22px;
+    --mh-line-height-body-3: 18px;
+    --mh-line-height-caption: 16px;
+    --mh-line-height-small: 21px;
+
+    /* ========================================
+     SPACING SYSTEM
+     ======================================== */
+    --mh-spacing-xs: 4px;
+    --mh-spacing-sm: 10px;
+    --mh-spacing-md: 16px;
+    --mh-spacing-lg: 20px;
+    --mh-spacing-xl: 40px;
+
+    /* ========================================
+     BORDER RADIUS
+     ======================================== */
+    --mh-radius-sm: 4px;
+    --mh-radius-md: 6px;
+    --mh-radius-lg: 8px;
+    --mh-radius-pill: 100px;
+
+    /* ========================================
+     SHADOWS
+     ======================================== */
+    --mh-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --mh-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --mh-shadow-lg: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --mh-shadow-button: 0 2px 8px rgba(13, 70, 137, 0.2);
+
+    /* ========================================
+     TRANSITIONS
+     ======================================== */
+    --mh-transition-fast: 0.15s ease;
+    --mh-transition-normal: 0.2s ease;
+    --mh-transition-slow: 0.3s ease;
+}
+
+/* ========================================
+   GLOBAL RESETS & BASE STYLES
+   ======================================== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--mh-font-primary);
+    font-size: var(--mh-font-size-body-1);
+    font-weight: var(--mh-font-weight-light);
+    line-height: var(--mh-line-height-body-1);
+    color: var(--mh-primary-black-base);
+    background-color: var(--mh-neutral-grey-extralight);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   TYPOGRAPHY CLASSES
+   ======================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--mh-font-primary);
+    font-weight: var(--mh-font-weight-bold);
+    margin: 0;
+    color: var(--mh-primary-black-base);
+}
+
+h1 {
+    font-size: var(--mh-font-size-h4);
+    line-height: var(--mh-line-height-h4);
+}
+
+.mh-body-bold {
+    font-weight: var(--mh-font-weight-bold);
+}
+
+.mh-body-medium {
+    font-weight: var(--mh-font-weight-medium);
+}
+
+/* ========================================
+   BUTTON STYLES
+   ======================================== */
+.mh-btn {
+    font-family: var(--mh-font-ui);
+    font-size: var(--mh-font-size-body-1);
+    font-weight: var(--mh-font-weight-bold);
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--mh-radius-pill);
+    cursor: pointer;
+    transition: all var(--mh-transition-normal);
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    line-height: 1.5;
+}
+
+.mh-btn-primary {
+    background-color: var(--mh-primary-blue-base);
+    color: var(--mh-neutral-white);
+    box-shadow: var(--mh-shadow-button);
+}
+
+.mh-btn-primary:hover {
+    background-color: var(--mh-primary-blue-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(13, 70, 137, 0.3);
+}
+
+.mh-btn-primary:active,
+.mh-btn-primary:focus {
+    background-color: var(--mh-primary-blue-dark);
+    outline: 2px solid var(--mh-primary-blue-light);
+    outline-offset: 2px;
+}
+
+.mh-btn-secondary {
+    background-color: var(--mh-semantic-green-base);
+    color: var(--mh-neutral-white);
+}
+
+.mh-btn-secondary:hover {
+    background-color: #18a062;
+    transform: translateY(-1px);
+}
+
+.mh-btn-secondary:active,
+.mh-btn-secondary:focus {
+    background-color: #158f56;
+    outline: 2px solid var(--mh-semantic-green-base);
+    outline-offset: 2px;
+}
+
+.mh-btn-sm {
+    padding: 8px 16px;
+    font-size: var(--mh-font-size-small);
+}
+
+.mh-btn:disabled {
+    background-color: var(--mh-neutral-grey-base);
+    color: var(--mh-neutral-grey-dark);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ========================================
+   FORM ELEMENTS
+   ======================================== */
+.mh-input,
+.mh-select {
+    font-family: var(--mh-font-primary);
+    font-size: var(--mh-font-size-body-1);
+    padding: 10px 12px;
+    border: 1px solid var(--mh-neutral-grey-light);
+    border-radius: var(--mh-radius-sm);
+    background-color: var(--mh-neutral-white);
+    color: var(--mh-primary-black-base);
+    transition: border-color var(--mh-transition-fast), box-shadow var(--mh-transition-fast);
+    width: 100%;
+}
+
+.mh-input:hover,
+.mh-select:hover {
+    border-color: var(--mh-neutral-grey-dark);
+}
+
+.mh-input:focus,
+.mh-select:focus {
+    outline: none;
+    border-color: var(--mh-primary-blue-base);
+    box-shadow: 0 0 0 3px rgba(13, 70, 137, 0.1);
+}
+
+.mh-label {
+    font-family: var(--mh-font-primary);
+    font-size: var(--mh-font-size-body-1);
+    font-weight: var(--mh-font-weight-medium);
+    color: var(--mh-primary-black-base);
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+.mh-text-center {
+    text-align: center;
+}
+
+.mh-mt-sm {
+    margin-top: var(--mh-spacing-sm);
+}
+
+.mh-mt-md {
+    margin-top: var(--mh-spacing-md);
+}
+
+.mh-mt-lg {
+    margin-top: var(--mh-spacing-lg);
+}
+
+.mh-mt-xl {
+    margin-top: var(--mh-spacing-xl);
+}
+
+.mh-mb-sm {
+    margin-bottom: var(--mh-spacing-sm);
+}
+
+.mh-mb-md {
+    margin-bottom: var(--mh-spacing-md);
+}
+
+.mh-mb-lg {
+    margin-bottom: var(--mh-spacing-lg);
+}
+
+.mh-mb-xl {
+    margin-bottom: var(--mh-spacing-xl);
+}
+
+.mh-gap-sm {
+    gap: var(--mh-spacing-sm);
+}
+
+.mh-gap-md {
+    gap: var(--mh-spacing-md);
+}
+
+.mh-gap-lg {
+    gap: var(--mh-spacing-lg);
+}

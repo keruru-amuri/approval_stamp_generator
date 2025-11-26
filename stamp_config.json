@@ -1,0 +1,58 @@
+{
+    "AL.png": {
+        "x": 200,
+        "y": 288,
+        "font": "Arial",
+        "size": 82,
+        "color": "#000000"
+    },
+    "CAL.png": {
+        "color": "#000000",
+        "font": "Arial",
+        "size": 48,
+        "x": 196,
+        "y": 137
+    },
+    "HAML.png": {
+        "color": "#000000",
+        "font": "Impact",
+        "size": 48,
+        "x": 200,
+        "y": 195
+    },
+    "JAE.png": {
+        "color": "#000000",
+        "font": "Arial",
+        "size": 98,
+        "x": 198,
+        "y": 286
+    },
+    "LA.png": {
+        "color": "#000000",
+        "font": "Arial",
+        "size": 56,
+        "x": 201,
+        "y": 170
+    },
+    "NL.png": {
+        "color": "#000000",
+        "font": "Arial",
+        "size": 78,
+        "x": 202,
+        "y": 268
+    },
+    "SAAM.png": {
+        "color": "#000000",
+        "font": "Arial",
+        "size": 86,
+        "x": 196,
+        "y": 258
+    },
+    "SAMS.png": {
+        "color": "#000000",
+        "font": "Arial",
+        "size": 54,
+        "x": 199,
+        "y": 222
+    }
+}

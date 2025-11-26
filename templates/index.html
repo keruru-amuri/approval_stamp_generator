@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approval Stamp Generator</title>
+
+    <!-- Google Fonts - MH Design System -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- MH Design System -->
+    <link rel="stylesheet" href="/static/css/mh-design-system.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body {
+            height: auto;
+            overflow-y: auto;
+        }
+
+        .generator-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: var(--mh-neutral-white);
+            padding: var(--mh-spacing-xl);
+            border-radius: var(--mh-radius-lg);
+            box-shadow: var(--mh-shadow-lg);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: var(--mh-spacing-lg);
+            text-align: left;
+        }
+
+        .stamp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: var(--mh-spacing-sm);
+            margin-top: var(--mh-spacing-sm);
+            max-height: 200px;
+            overflow-y: auto;
+            padding: var(--mh-spacing-sm);
+            border: 1px solid var(--mh-neutral-grey-light);
+            border-radius: var(--mh-radius-sm);
+            background-color: var(--mh-neutral-grey-ultralight);
+        }
+
+        .stamp-option {
+            border: 2px solid transparent;
+            border-radius: var(--mh-radius-md);
+            padding: 5px;
+            cursor: pointer;
+            transition: all var(--mh-transition-normal);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--mh-neutral-white);
+        }
+
+        .stamp-option:hover {
+            background-color: var(--mh-secondary-blue-ultralight);
+            transform: translateY(-2px);
+            box-shadow: var(--mh-shadow-sm);
+        }
+
+        .stamp-option.selected {
+            border-color: var(--mh-primary-blue-base);
+            background-color: var(--mh-secondary-blue-ultralight);
+            box-shadow: var(--mh-shadow-button);
+        }
+
+        .stamp-option img {
+            max-width: 100%;
+            height: 60px;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .generator-container {
+                padding: var(--mh-spacing-lg);
+                margin: var(--mh-spacing-lg);
+            }
+        }
+
+        .preview-area {
+            margin-top: var(--mh-spacing-xl);
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--mh-neutral-grey-ultralight);
+            border: 2px dashed var(--mh-neutral-grey-base);
+            border-radius: var(--mh-radius-lg);
+            position: relative;
+            padding: var(--mh-spacing-lg);
+        }
+
+        .preview-area img {
+            max-width: 100%;
+            max-height: 400px;
+            box-shadow: var(--mh-shadow-md);
+            border-radius: var(--mh-radius-sm);
+        }
+
+        .preview-placeholder {
+            color: var(--mh-neutral-grey-dark);
+            font-size: var(--mh-font-size-body-1);
+        }
+
+        .actions {
+            margin-top: var(--mh-spacing-lg);
+            display: flex;
+            justify-content: center;
+            gap: var(--mh-spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .calibrate-link {
+            color: var(--mh-primary-blue-base);
+            text-decoration: none;
+            font-size: var(--mh-font-size-body-3);
+            font-weight: var(--mh-font-weight-medium);
+            transition: color var(--mh-transition-fast);
+        }
+
+        .calibrate-link:hover {
+            color: var(--mh-primary-blue-light);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="generator-container">
+        <div style="margin-bottom: 20px;">
+            <img src="/static/images/mh-logo.png" alt="MH Logo" style="height: 35px; width: auto;">
+        </div>
+        <h1>Approval Stamp Generator</h1>
+        <p>Select a stamp and enter the approval number to generate your image.</p>
+        <p style="margin-bottom: 30px;">
+            <a href="/calibrate" class="calibrate-link">
+                ⚙️ Calibrate Stamps
+            </a>
+        </p>
+
+        <div class="form-group">
+            <label class="mh-label">Select Stamp:</label>
+            <div class="stamp-grid" id="stampGrid">
+                <!-- Stamps will be loaded here -->
+            </div>
+            <input type="hidden" id="selectedStamp" value="">
+        </div>
+
+        <div class="form-group">
+            <label for="approvalNumber" class="mh-label">Approval Number:</label>
+            <input type="text" id="approvalNumber" placeholder="e.g., 123456" class="mh-input">
+        </div>
+
+        <button class="mh-btn mh-btn-primary" id="generateBtn">Generate Stamp</button>
+
+        <div class="preview-area" id="previewArea">
+            <span class="preview-placeholder">Generated stamp will appear here</span>
+        </div>
+
+        <div class="actions hidden" id="downloadActions">
+            <button class="mh-btn mh-btn-secondary mh-btn-sm" data-width="original">Original</button>
+            <button class="mh-btn mh-btn-secondary mh-btn-sm" data-width="213">Large (213px)</button>
+            <button class="mh-btn mh-btn-secondary mh-btn-sm" data-width="142">Medium (142px)</button>
+            <button class="mh-btn mh-btn-secondary mh-btn-sm" data-width="71">Small (71px)</button>
+        </div>
+    </div>
+
+    <script>
+        const stampGrid = document.getElementById('stampGrid');
+        const selectedStampInput = document.getElementById('selectedStamp');
+        const approvalNumber = document.getElementById('approvalNumber');
+        const generateBtn = document.getElementById('generateBtn');
+        const previewArea = document.getElementById('previewArea');
+        const downloadActions = document.getElementById('downloadActions');
+
+        let currentStamp = null;
+        let currentNumber = null;
+
+        // Load stamps
+        fetch('/api/stamps')
+            .then(res => res.json())
+            .then(stamps => {
+                stamps.forEach(stamp => {
+                    const div = document.createElement('div');
+                    div.className = 'stamp-option';
+                    div.title = stamp; // Show name on hover
+                    div.onclick = () => selectStamp(div, stamp);
+
+                    const img = document.createElement('img');
+                    img.src = `/images/${stamp}`;
+                    img.alt = stamp;
+
+                    div.appendChild(img);
+                    stampGrid.appendChild(div);
+                });
+            });
+
+        function selectStamp(element, stampName) {
+            // Remove selected class from all
+            document.querySelectorAll('.stamp-option').forEach(el => el.classList.remove('selected'));
+            // Add to clicked
+            element.classList.add('selected');
+            // Update hidden input
+            selectedStampInput.value = stampName;
+        }
+
+        generateBtn.addEventListener('click', async () => {
+            const stamp = selectedStampInput.value;
+            const number = approvalNumber.value;
+
+            if (!stamp) {
+                alert('Please select a stamp.');
+                return;
+            }
+            if (!number) {
+                alert('Please enter an approval number.');
+                return;
+            }
+
+            // Store for download buttons
+            currentStamp = stamp;
+            currentNumber = number;
+
+            previewArea.innerHTML = '<span class="preview-placeholder">Generating...</span>';
+            downloadActions.classList.add('hidden');
+
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ stamp, number })
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+
+                    const img = document.createElement('img');
+                    img.src = url;
+                    previewArea.innerHTML = '';
+                    previewArea.appendChild(img);
+
+                    downloadActions.classList.remove('hidden');
+                } else {
+                    const err = await response.json();
+                    previewArea.innerHTML = `<span style="color: var(--mh-semantic-red-base);">Error: ${err.error}</span>`;
+                }
+            } catch (e) {
+                previewArea.innerHTML = '<span style="color: var(--mh-semantic-red-base);">Network Error</span>';
+            }
+        });
+
+        // Handle download button clicks
+        downloadActions.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('mh-btn')) {
+                const width = e.target.dataset.width;
+                const widthParam = width === 'original' ? null : parseInt(width);
+
+                try {
+                    const response = await fetch('/generate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            stamp: currentStamp,
+                            number: currentNumber,
+                            width: widthParam
+                        })
+                    });
+
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const url = URL.createObjectURL(blob);
+
+                        // Create temporary link and trigger download
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `stamp_${width}.png`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    } else {
+                        alert('Error generating image');
+                    }
+                } catch (e) {
+                    alert('Network error');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
