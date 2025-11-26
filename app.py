@@ -88,8 +88,27 @@ def generate_stamp_image(stamp_name, approval_number, target_width=None):
     # Draw Text
     draw = ImageDraw.Draw(img)
     
-    # Font handling
-    font_map = {
+    # Font handling - support both Windows and Linux font paths
+    # Also check for bundled fonts in the fonts/ directory
+    font_map_bundled = {
+        "Arial": "fonts/LiberationSans-Regular.ttf",
+        "Verdana": "fonts/LiberationSans-Regular.ttf",
+        "Times New Roman": "fonts/LiberationSerif-Regular.ttf",
+        "Courier New": "fonts/LiberationMono-Regular.ttf",
+        "Georgia": "fonts/LiberationSerif-Regular.ttf",
+        "Impact": "fonts/LiberationSans-Bold.ttf"
+    }
+    
+    font_map_linux = {
+        "Arial": "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+        "Verdana": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "Times New Roman": "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf",
+        "Courier New": "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+        "Georgia": "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf",
+        "Impact": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+    }
+    
+    font_map_windows = {
         "Arial": "arial.ttf",
         "Verdana": "verdana.ttf",
         "Times New Roman": "times.ttf",
@@ -99,20 +118,35 @@ def generate_stamp_image(stamp_name, approval_number, target_width=None):
     }
     
     font_name = stamp_config.get('font', 'Arial')
-    font_filename = font_map.get(font_name, font_name + ".ttf")
     font_size = int(stamp_config.get('size', 24) * scale_factor)
     
-    try:
-        # Try loading with the mapped filename
-        font = ImageFont.truetype(font_filename, font_size)
-    except IOError:
-        try:
-            # Try loading with the original name (in case it works on some systems)
-            font = ImageFont.truetype(font_name, font_size)
-        except IOError:
-            # Fallback to default
-            print(f"Warning: Could not load font {font_name} or {font_filename}. Using default.")
-            font = ImageFont.load_default()
+    # Try multiple font paths in order of preference
+    font = None
+    font_paths_to_try = [
+        font_map_bundled.get(font_name),  # Try bundled fonts first
+        font_map_linux.get(font_name),  # Try Linux system fonts
+        font_map_windows.get(font_name),  # Try Windows fonts
+        font_name,  # Try the name directly
+    ]
+    
+    for font_path in font_paths_to_try:
+        if font_path:
+            try:
+                if os.path.exists(font_path):
+                    font = ImageFont.truetype(font_path, font_size)
+                    break
+                else:
+                    # Try without checking existence (for system fonts)
+                    font = ImageFont.truetype(font_path, font_size)
+                    break
+            except (IOError, OSError):
+                continue
+    
+    # If no font loaded, use default
+    if font is None:
+        print(f"Warning: Could not load font {font_name}. Using default.")
+        # Use a larger default font size by creating a scaled default
+        font = ImageFont.load_default()
 
     text_color = stamp_config.get('color', '#000000')
     x = int(stamp_config.get('x', 0) * scale_factor)
